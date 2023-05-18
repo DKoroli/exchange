@@ -24,3 +24,5 @@ setInterval(function () {
   currencyTo.innerHTML = currency[0].to;
   currencyRates.innerHTML = currency[0].rates;
 }, 5000);
+
+console.log(currency);
