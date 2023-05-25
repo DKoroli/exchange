@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 240px;
+  height: 80px;
+  align-content: space-evenly;
+  margin-top: 150px;
+  margin-left: 100px;
+}
+
+/* .div {
+  border: 3px black;
+  margin-inline: 15px;
+}
+
+.text {
+  margin-inline: 15px;
+} */
+
+.dimensions {
+  height: 35px;
+  width: 60px;
+}
+
+/* .text-aling {
+  text-align: center;
+} */
