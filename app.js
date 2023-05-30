@@ -43,10 +43,13 @@ const res = JSON.parse(str);
 const xhr = new XMLHttpRequest();
 xhr.open(  "GET", "https://api.apilayer.com/exchangerates_data/convert?to=MDL&from=UAH&amount=2");
 xhr.setRequestHeader('apikey', '1W7rableYQZhtEklmqPT9sm71m2WFUvp');
+xhr.addEventListener('load', () => {
+  const response = JSON.parse(xhr.responseText);
+  console.log(response);
+})
 
 xhr.send();
 
-console.log(xhr.responseText);
 
 
 let i = 0;
