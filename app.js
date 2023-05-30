@@ -40,7 +40,14 @@ const str = JSON.stringify(obj);
 
 const res = JSON.parse(str);
 
-console.log(res);
+const xhr = new XMLHttpRequest();
+xhr.open(  "GET", "https://api.apilayer.com/exchangerates_data/convert?to=MDL&from=UAH&amount=2");
+xhr.setRequestHeader('apikey', '1W7rableYQZhtEklmqPT9sm71m2WFUvp');
+
+xhr.send();
+
+console.log(xhr.responseText);
+
 
 let i = 0;
 setInterval(function () {
