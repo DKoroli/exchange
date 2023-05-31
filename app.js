@@ -2,68 +2,55 @@ const currency = [
   {
     from: "USD",
     to: "EUR",
-    rates: "1.05",
   },
   {
     from: "USD",
     to: "MDL",
-    rates: "17.54",
   },
   {
     from: "GBR",
     to: "MDL",
-    rates: "24.13",
   },
   {
     from: "UAH",
     to: "MDL",
-    rates: "0.45",
+  },
+  {
+    from: "RON",
+    to: "MDL",
+  },
+  {
+    from: "EUR",
+    to: "MDL",
+  },
+  {
+    from: "RUB",
+    to: "MDL",
   },
 ];
 
-const obj = {
-  success: true,
-  query: {
-    from: "UAH",
-    to: "MDL",
-    amount: 2,
-  },
-  info: {
-    timestamp: 1684956963,
-    rate: 0.480945,
-  },
-  date: "2023-05-24",
-  result: 0.96189,
-};
-
-const str = JSON.stringify(obj);
-
-const res = JSON.parse(str);
-
-const xhr = new XMLHttpRequest();
-xhr.open(  "GET", "https://api.apilayer.com/exchangerates_data/convert?to=MDL&from=UAH&amount=2");
-xhr.setRequestHeader('apikey', '1W7rableYQZhtEklmqPT9sm71m2WFUvp');
-xhr.addEventListener('load', () => {
-  const response = JSON.parse(xhr.responseText);
-  console.log(response);
-})
-
-xhr.send();
-
-
-
-let i = 0;
+i = 0;
 setInterval(function () {
-  const currencyFrom = document.getElementById("from");
-  const currencyTo = document.getElementById("to");
-  const currencyRates = document.getElementById("rates");
-  const currencyOnline = document.getElementById("online");
-  currencyFrom.innerHTML = currency[i].from;
-  currencyTo.innerHTML = currency[i].to;
-  currencyRates.innerHTML = currency[i].rates;
-  currencyOnline.innerHTML = res.info.rate;
-  i++;
-  if (i > currency.length - 1) {
-    i = 0;
-  }
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    `https://api.apilayer.com/exchangerates_data/convert?to=${currency[i].to}&from=${currency[i].from}&amount=2`
+  );
+  xhr.setRequestHeader("apikey", "1W7rableYQZhtEklmqPT9sm71m2WFUvp");
+  xhr.addEventListener("load", () => {
+    const response = JSON.parse(xhr.responseText);
+    console.log(response);
+    const currencyFrom = document.getElementById("from");
+    const currencyTo = document.getElementById("to");
+    const currencyRates = document.getElementById("rates");
+    currencyFrom.innerHTML = response.query.from;
+    currencyTo.innerHTML = response.query.to;
+    currencyRates.innerHTML = response.info.rate;
+    i++;
+    if (i > currency.length - 1) {
+      i = 0;
+    }
+  });
+
+  xhr.send();
 }, 5000);
