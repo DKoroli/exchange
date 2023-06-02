@@ -29,16 +29,16 @@ const currency = [
   },
 ];
 
-i = 0;
 setInterval(function () {
   const xhr = new XMLHttpRequest();
+  // let i = 0;
   xhr.open(
     "GET",
-    `https://api.apilayer.com/exchangerates_data/convert?to=${currency[i].to}&from=${currency[i].from}&amount=2`
+    `http://127.0.0.1:8080?to=${currency[0].to}&from=${currency[0].from}`
   );
-  xhr.setRequestHeader("apikey", "1W7rableYQZhtEklmqPT9sm71m2WFUvp");
+  // xhr.setRequestHeader("apikey", "1W7rableYQZhtEklmqPT9sm71m2WFUvp");
   xhr.addEventListener("load", () => {
-    const response = JSON.parse(xhr.responseText);
+    const response = JSON.parse(xhr.response);
     console.log(response);
     const currencyFrom = document.getElementById("from");
     const currencyTo = document.getElementById("to");
@@ -46,10 +46,10 @@ setInterval(function () {
     currencyFrom.innerHTML = response.query.from;
     currencyTo.innerHTML = response.query.to;
     currencyRates.innerHTML = response.info.rate;
-    i++;
-    if (i > currency.length - 1) {
-      i = 0;
-    }
+    // if (i > currency.length - 1) {
+    //   i = 0;
+    // }
+    // i++;
   });
 
   xhr.send();
