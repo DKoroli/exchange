@@ -52,25 +52,25 @@ function handler(req, res) {
 
   let response = {};
 
-  if (req.url == "?to=EUR&from=USD") {
+  if (req.url == "/?to=EUR&from=USD") {
     response = exchange[0];
     res.write(JSON.stringify(response));
-  } else if (req.url == "?to=MDL&from=USD") {
+  } else if (req.url == "/?to=MDL&from=USD") {
     response = exchange[1];
     res.write(JSON.stringify(response));
-  } else if (req.url == "?to=MDL&from=GBR") {
+  } else if (req.url == "/?to=MDL&from=GBR") {
     response = exchange[2];
     res.write(JSON.stringify(response));
-  } else if (req.url == "?to=MDL&from=UAH") {
+  } else if (req.url == "/?to=MDL&from=UAH") {
     response = exchange[3];
     res.write(JSON.stringify(response));
-  } else if (req.url == "?to=MDL&from=RON") {
+  } else if (req.url == "/?to=MDL&from=RON") {
     response = exchange[4];
     res.write(JSON.stringify(response));
-  } else if (req.url == "?to=MDL&from=EUR") {
+  } else if (req.url == "/?to=MDL&from=EUR") {
     response = exchange[5];
     res.write(JSON.stringify(response));
-  } else if (req.url == "?to=MDL&from=RUB") {
+  } else if (req.url == "/?to=MDL&from=RUB") {
     response = exchange[6];
     res.write(JSON.stringify(response));
   } else {
