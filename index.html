@@ -12,11 +12,37 @@
       <div class="dimensions">Из:</div>
       <div class="dimensions">В:</div>
       <div class="dimensions">Курс:</div>
-      <div class="dimensions">Онлайн:</div>
       <div id="from" class="div, dimensions"></div>
       <div id="to" class="div, dimensions"></div>
       <div id="rates" class="div, dimensions"></div>
-      <div id="online" class="div, dimensions"></div>
+    </div>
+    <div class="exchange">
+      <div class="dimensions_ex">Из:</div>
+      <div class="dimensions_ex">В:</div>
+      <div class="dimensions_ex">Кол-во:</div>
+      <div class="dimensions_ex">Результат:</div>
+      <select name="select_from" id="selectFrom" class="select">
+        <option value=""></option>
+        <option value="mdl">MDL</option>
+        <option value="usd">USD</option>
+        <option value="eur">EUR</option>
+        <option value="gbr">GBR</option>
+        <option value="ron">RON</option>
+        <option value="uah">UAH</option>
+        <option value="rub">RUB</option>
+      </select>
+      <select name="select_to" id="selectTo" class="select">
+        <option value=""></option>
+        <option value="mdl">MDL</option>
+        <option value="usd">USD</option>
+        <option value="eur">EUR</option>
+        <option value="gbr">GBR</option>
+        <option value="ron">RON</option>
+        <option value="uah">UAH</option>
+        <option value="rub">RUB</option>
+      </select>
+      <input type="text" id="amount" class="dimensions_ex" />
+      <div id="exchangeResult" class="result">Рез</div>
     </div>
 
     <script src="app.js"></script>
