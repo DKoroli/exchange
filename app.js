@@ -55,23 +55,28 @@ setInterval(function () {
 
 const exchangeFrom = document.getElementById("selectFrom");
 const exchangeTo = document.getElementById("selectTo");
-const amount = document.getElementById("amount");
-let curFrom = "";
-let curTo = "";
-let curMount = "";
+let amount = document.getElementById("amount");
+let curFrom;
+let curTo;
+let curMount;
 
-exchangeFrom.addEventListener("click", () => {
-  curFrom = exchangeFrom;
+exchangeFrom.addEventListener("change", () => {
+  curFrom = exchangeFrom.value;
   console.log(curFrom);
 });
 
-exchangeTo.addEventListener("click", () => {
-  curTo = exchangeTo;
+exchangeTo.addEventListener("change", () => {
+  curTo = exchangeTo.value;
   console.log(curTo);
 });
 
-amount.addEventListener("click", () => {
-  curMount = amount;
-  console.log(amount);
-});
+amount.addEventListener("keyup", () => {
+  curMount = amount.value;
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    `http://127.0.0.1:8080?to=${curTo}&from=${curFrom}&mount=${curMount}`
+  );
 
+  xhr.send();
+});
