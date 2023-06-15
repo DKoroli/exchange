@@ -47,39 +47,7 @@ const exchange = {
   RUB: 82.48,
 };
 
-// [
-//   {
-//     from: "USD",
-//     to: "EUR",
-//     rate: "0.93",
-//   },
-//   {
-//     from: "USD",
-//     to: "MDL",
-//     rate: "17.83",
-//   },
-//   {
-//     from: "USD",
-//     to: "GBP",
-//     rate: "0.80",
-//   },
-//   {
-//     from: "USD",
-//     to: "UAH",
-//     rate: "36.94",
-//   },
-//   {
-//     from: "USD",
-//     to: "RON",
-//     rate: "4.60",
-//   },
-//   {
-//     from: "USD",
-//     to: "RUB",
-//     rate: "82.48",
-//   },
-// ];
-//формула: (to/from)*mount
+//формула: (convto/convfrom)*convmount
 
 console.log("startin exchange server...");
 const exServer = http.createServer(converter);
@@ -95,9 +63,14 @@ function converter(req, res) {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   });
-  
-  console.log("To:", convto, "From:", convfrom, "Mount:", convmount);
-  console.log(req.url);
+
+  let to = exchange[convto];
+  let from = exchange[convfrom];
+  let intermediate = (to / from) * convmount;
+  const response = intermediate.toFixed(2);
+  res.write(JSON.stringify(response));
+
+  res.end();
 }
 console.log("the end of exchange server...");
 

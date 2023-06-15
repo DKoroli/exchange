@@ -78,5 +78,11 @@ amount.addEventListener("keyup", () => {
     `http://127.0.0.1:8800?to=${curTo}&from=${curFrom}&mount=${curMount}`
   );
 
+  xhr.addEventListener("load", () => {
+    const response = JSON.parse(xhr.response);
+    const exchangeResult = document.getElementById("exchangeResult");
+    exchangeResult.innerHTML = response;
+  });
+
   xhr.send();
 });
