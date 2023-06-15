@@ -8,7 +8,7 @@ const currency = [
     to: "MDL",
   },
   {
-    from: "GBR",
+    from: "GBP",
     to: "MDL",
   },
   {
@@ -75,7 +75,7 @@ amount.addEventListener("keyup", () => {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "GET",
-    `http://127.0.0.1:8080?to=${curTo}&from=${curFrom}&mount=${curMount}`
+    `http://127.0.0.1:8800?to=${curTo}&from=${curFrom}&mount=${curMount}`
   );
 
   xhr.send();
