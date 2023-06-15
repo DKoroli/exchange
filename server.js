@@ -1,6 +1,6 @@
 const http = require("http");
 
-const exchange = [
+const informer = [
   {
     from: "USD",
     to: "EUR",
@@ -9,10 +9,10 @@ const exchange = [
   {
     from: "USD",
     to: "MDL",
-    rate: "17.56",
+    rate: "17.83",
   },
   {
-    from: "GBR",
+    from: "GBP",
     to: "MDL",
     rate: "22.14",
   },
@@ -38,9 +38,72 @@ const exchange = [
   },
 ];
 
-console.log("starting server...");
-const server = http.createServer(handler);
-server.listen(8080);
+const exchange = {
+  EUR: 0.93,
+  MDL: 17.83,
+  GBP: 0.8,
+  UAH: 36.94,
+  RON: 4.6,
+  RUB: 82.48,
+};
+
+// [
+//   {
+//     from: "USD",
+//     to: "EUR",
+//     rate: "0.93",
+//   },
+//   {
+//     from: "USD",
+//     to: "MDL",
+//     rate: "17.83",
+//   },
+//   {
+//     from: "USD",
+//     to: "GBP",
+//     rate: "0.80",
+//   },
+//   {
+//     from: "USD",
+//     to: "UAH",
+//     rate: "36.94",
+//   },
+//   {
+//     from: "USD",
+//     to: "RON",
+//     rate: "4.60",
+//   },
+//   {
+//     from: "USD",
+//     to: "RUB",
+//     rate: "82.48",
+//   },
+// ];
+//формула: (to/from)*mount
+
+console.log("startin exchange server...");
+const exServer = http.createServer(converter);
+exServer.listen(8800);
+
+function converter(req, res) {
+  const convString = new URLSearchParams(req.url);
+  let convfrom = convString.get("from");
+  let convto = convString.get("/?to");
+  let convmount = convString.get("mount");
+
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  });
+  
+  console.log("To:", convto, "From:", convfrom, "Mount:", convmount);
+  console.log(req.url);
+}
+console.log("the end of exchange server...");
+
+console.log("starting informer server...");
+const infoServer = http.createServer(handler);
+infoServer.listen(8080);
 
 function handler(req, res) {
   const queryString = new URLSearchParams(req.url);
@@ -53,9 +116,9 @@ function handler(req, res) {
   });
 
   let response = {};
-  for (let i = 0; i < exchange.length; i++) {
-    if (exchange[i].from == queryfrom && exchange[i].to == queryto) {
-      response = exchange[i];
+  for (let i = 0; i < informer.length; i++) {
+    if (informer[i].from == queryfrom && informer[i].to == queryto) {
+      response = informer[i];
       res.write(JSON.stringify(response));
       res.end();
       return;
@@ -67,4 +130,4 @@ function handler(req, res) {
   res.end();
 }
 
-console.log("in the end");
+console.log("in the end of informer server");
