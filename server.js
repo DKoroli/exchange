@@ -39,6 +39,7 @@ const informer = [
 ];
 
 const exchange = {
+  USD: 1,
   EUR: 0.93,
   MDL: 17.83,
   GBP: 0.8,
@@ -55,6 +56,7 @@ exServer.listen(8800);
 
 function converter(req, res) {
   const convString = new URLSearchParams(req.url);
+  console.log(req.url);
   let convfrom = convString.get("from");
   let convto = convString.get("/?to");
   let convmount = convString.get("mount");
@@ -69,7 +71,6 @@ function converter(req, res) {
   let intermediate = (to / from) * convmount;
   const response = intermediate.toFixed(2);
   res.write(JSON.stringify(response));
-
   res.end();
 }
 console.log("the end of exchange server...");
