@@ -56,33 +56,58 @@ setInterval(function () {
 const exchangeFrom = document.getElementById("selectFrom");
 const exchangeTo = document.getElementById("selectTo");
 let amount = document.getElementById("amount");
+amount.value = 1;
 let curFrom;
 let curTo;
 let curMount;
+const xhr = new XMLHttpRequest();
 
 exchangeFrom.addEventListener("change", () => {
   curFrom = exchangeFrom.value;
-  console.log(curFrom);
+  if (exchangeFrom !== "" && exchangeTo !== "" && amount !== "") {
+    sendRequest();
+  }
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
 });
 
 exchangeTo.addEventListener("change", () => {
+  console.log(amount);
+  console.log(amount.value);
+  // amount.value = 1;
   curTo = exchangeTo.value;
-  console.log(curTo);
+  if (
+    exchangeFrom !== "" &&
+    exchangeTo !== "" &&
+    (amount.value !== "" || amount.value == 1)
+  ) {
+    sendRequest();
+  }
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
 });
 
 amount.addEventListener("keyup", () => {
   curMount = amount.value;
-  const xhr = new XMLHttpRequest();
+  sendRequest();
+
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
+});
+
+function sendRequest() {
   xhr.open(
     "GET",
     `http://127.0.0.1:8800?to=${curTo}&from=${curFrom}&mount=${curMount}`
   );
-
-  xhr.addEventListener("load", () => {
-    const response = JSON.parse(xhr.response);
-    const exchangeResult = document.getElementById("exchangeResult");
-    exchangeResult.innerHTML = response;
-  });
-
   xhr.send();
-});
+}
+
+function addResult() {
+  const response = JSON.parse(xhr.response);
+  const exchangeResult = document.getElementById("exchangeResult");
+  exchangeResult.innerHTML = response;
+}
