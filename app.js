@@ -64,26 +64,15 @@ const xhr = new XMLHttpRequest();
 
 exchangeFrom.addEventListener("change", () => {
   curFrom = exchangeFrom.value;
-  if (exchangeFrom !== "" && exchangeTo !== "" && amount !== "") {
-    sendRequest();
-  }
+  sendRequest();
   xhr.addEventListener("load", () => {
     addResult();
   });
 });
 
 exchangeTo.addEventListener("change", () => {
-  console.log(amount);
-  console.log(amount.value);
-  // amount.value = 1;
   curTo = exchangeTo.value;
-  if (
-    exchangeFrom !== "" &&
-    exchangeTo !== "" &&
-    (amount.value !== "" || amount.value == 1)
-  ) {
-    sendRequest();
-  }
+  sendRequest();
   xhr.addEventListener("load", () => {
     addResult();
   });
@@ -92,22 +81,37 @@ exchangeTo.addEventListener("change", () => {
 amount.addEventListener("keyup", () => {
   curMount = amount.value;
   sendRequest();
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
+});
 
+amount.addEventListener("change", () => {
+  curMount = amount.value;
+  sendRequest();
   xhr.addEventListener("load", () => {
     addResult();
   });
 });
 
 function sendRequest() {
-  xhr.open(
-    "GET",
-    `http://127.0.0.1:8800?to=${curTo}&from=${curFrom}&mount=${curMount}`
-  );
-  xhr.send();
+  if (
+    exchangeFrom !== "" &&
+    exchangeTo !== "" &&
+    (amount.value !== "" || amount.value == 1)
+  ) {
+    xhr.open(
+      "GET",
+      `http://127.0.0.1:8800?to=${exchangeTo.value}&from=${exchangeFrom.value}&mount=${amount.value}`
+    );
+    xhr.send();
+  }
 }
 
 function addResult() {
   const response = JSON.parse(xhr.response);
   const exchangeResult = document.getElementById("exchangeResult");
-  exchangeResult.innerHTML = response;
+  if (response !== "NaN") {
+    exchangeResult.innerHTML = response;
+  }
 }
