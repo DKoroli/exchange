@@ -56,7 +56,6 @@ exServer.listen(8800);
 
 function converter(req, res) {
   const convString = new URLSearchParams(req.url);
-  console.log(req.url);
   let convfrom = convString.get("from");
   let convto = convString.get("/?to");
   let convmount = convString.get("mount");
@@ -65,11 +64,11 @@ function converter(req, res) {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   });
-
+  const response = {};
   let to = exchange[convto];
   let from = exchange[convfrom];
   let intermediate = (to / from) * convmount;
-  const response = intermediate.toFixed(2);
+  response.rate = intermediate.toFixed(2);
   res.write(JSON.stringify(response));
   res.end();
 }
