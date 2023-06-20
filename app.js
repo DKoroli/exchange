@@ -51,7 +51,7 @@ setInterval(function () {
   });
 
   xhr.send();
-}, 5000);
+}, 3000);
 
 const exchangeFrom = document.getElementById("selectFrom");
 const exchangeTo = document.getElementById("selectTo");
@@ -95,11 +95,7 @@ amount.addEventListener("change", () => {
 });
 
 function sendRequest() {
-  if (
-    exchangeFrom !== "" &&
-    exchangeTo !== "" &&
-    (amount.value !== "" || amount.value == 1)
-  ) {
+  if (exchangeFrom !== "" && exchangeTo !== "" && amount.value > 0) {
     xhr.open(
       "GET",
       `http://127.0.0.1:8800?to=${exchangeTo.value}&from=${exchangeFrom.value}&mount=${amount.value}`
@@ -111,7 +107,7 @@ function sendRequest() {
 function addResult() {
   const response = JSON.parse(xhr.response);
   const exchangeResult = document.getElementById("exchangeResult");
-  if (response !== "NaN") {
-    exchangeResult.innerHTML = response;
+  if (response.rate !== "NaN") {
+    exchangeResult.innerHTML = response.rate;
   }
 }
