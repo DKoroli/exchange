@@ -19,17 +19,23 @@ function converter(req, res) {
   let convfrom = convString.get("from");
   let convto = convString.get("/?to");
   let convmount = convString.get("mount");
-  if (convfrom.length === 3 && convto.length === 3 && convmount > 0) {
+  let response = {};
+  if (convfrom.length !== 3 && convto.length !== 3 && convmount <= 0) {
+    response = { status: "error", message: "Invalid data" };
+    res.write(JSON.stringify(response));
+    console.log("before return:", JSON.stringify(response));
+    return;
+  } else {
     res.writeHead(200, {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     });
-    const response = {};
     let to = exchange[convto];
     let from = exchange[convfrom];
     let intermediate = (to / from) * convmount;
     response.rate = intermediate.toFixed(2);
     res.write(JSON.stringify(response));
+    console.log("after return:", JSON.stringify(response));
     res.end();
   }
 }
