@@ -34,15 +34,15 @@ setInterval(function () {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "GET",
-    `http://127.0.0.1:8080?to=${currency[i].to}&from=${currency[i].from}`
+    `http://127.0.0.1:8800?to=${currency[i].to}&from=${currency[i].from}&mount=1`
   );
   xhr.addEventListener("load", () => {
     const response = JSON.parse(xhr.response);
     const currencyFrom = document.getElementById("from");
     const currencyTo = document.getElementById("to");
     const currencyRates = document.getElementById("rates");
-    currencyFrom.innerHTML = response.from;
-    currencyTo.innerHTML = response.to;
+    currencyFrom.innerHTML = currency[i].from;
+    currencyTo.innerHTML = currency[i].to;
     currencyRates.innerHTML = response.rate;
     i++;
     if (i > currency.length - 1) {
