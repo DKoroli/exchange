@@ -59,18 +59,19 @@ function converter(req, res) {
   let convfrom = convString.get("from");
   let convto = convString.get("/?to");
   let convmount = convString.get("mount");
-
-  res.writeHead(200, {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  });
-  const response = {};
-  let to = exchange[convto];
-  let from = exchange[convfrom];
-  let intermediate = (to / from) * convmount;
-  response.rate = intermediate.toFixed(2);
-  res.write(JSON.stringify(response));
-  res.end();
+  if (convfrom.length === 3 && convto.length === 3 && convmount > 0) {
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    });
+    const response = {};
+    let to = exchange[convto];
+    let from = exchange[convfrom];
+    let intermediate = (to / from) * convmount;
+    response.rate = intermediate.toFixed(2);
+    res.write(JSON.stringify(response));
+    res.end();
+  }
 }
 console.log("the end of exchange server...");
 
