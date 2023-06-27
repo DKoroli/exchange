@@ -39,7 +39,8 @@ function converter(req, res) {
     response.rate = intermediate.toFixed(2);
     res.write(JSON.stringify(response));
     console.log("after return:", JSON.stringify(response));
-  }
+}
   res.end();
+
 }
 console.log("the end of exchange server...");
