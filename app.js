@@ -34,15 +34,15 @@ setInterval(function () {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "GET",
-    `http://127.0.0.1:8080?to=${currency[i].to}&from=${currency[i].from}`
+    `http://127.0.0.1:8800?to=${currency[i].to}&from=${currency[i].from}&mount=1`
   );
   xhr.addEventListener("load", () => {
     const response = JSON.parse(xhr.response);
     const currencyFrom = document.getElementById("from");
     const currencyTo = document.getElementById("to");
     const currencyRates = document.getElementById("rates");
-    currencyFrom.innerHTML = response.from;
-    currencyTo.innerHTML = response.to;
+    currencyFrom.innerHTML = currency[i].from;
+    currencyTo.innerHTML = currency[i].to;
     currencyRates.innerHTML = response.rate;
     i++;
     if (i > currency.length - 1) {
@@ -51,38 +51,65 @@ setInterval(function () {
   });
 
   xhr.send();
-}, 5000);
+}, 3000);
 
 const exchangeFrom = document.getElementById("selectFrom");
 const exchangeTo = document.getElementById("selectTo");
 let amount = document.getElementById("amount");
+amount.value = 1;
 let curFrom;
 let curTo;
 let curMount;
+const xhr = new XMLHttpRequest();
 
 exchangeFrom.addEventListener("change", () => {
   curFrom = exchangeFrom.value;
-  console.log(curFrom);
+  sendRequest();
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
 });
 
 exchangeTo.addEventListener("change", () => {
   curTo = exchangeTo.value;
-  console.log(curTo);
+  sendRequest();
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
 });
 
 amount.addEventListener("keyup", () => {
   curMount = amount.value;
-  const xhr = new XMLHttpRequest();
-  xhr.open(
-    "GET",
-    `http://127.0.0.1:8800?to=${curTo}&from=${curFrom}&mount=${curMount}`
-  );
-
+  sendRequest();
   xhr.addEventListener("load", () => {
-    const response = JSON.parse(xhr.response);
-    const exchangeResult = document.getElementById("exchangeResult");
-    exchangeResult.innerHTML = response;
+    addResult();
   });
-
-  xhr.send();
 });
+
+amount.addEventListener("change", () => {
+  curMount = amount.value;
+  sendRequest();
+  xhr.addEventListener("load", () => {
+    addResult();
+  });
+});
+
+function sendRequest() {
+  if (
+    exchangeFrom.value !== "" &&
+    exchangeTo.value !== "" &&
+    amount.value > 0
+  ) {
+    xhr.open(
+      "GET",
+      `http://127.0.0.1:8800?to=${exchangeTo.value}&from=${exchangeFrom.value}&mount=${amount.value}`
+    );
+    xhr.send();
+  }
+}
+
+function addResult() {
+  const response = JSON.parse(xhr.response);
+  const exchangeResult = document.getElementById("exchangeResult");
+  exchangeResult.innerHTML = response.rate;
+}
