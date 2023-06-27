@@ -20,11 +20,14 @@ function converter(req, res) {
   let convto = convString.get("/?to");
   let convmount = convString.get("mount");
   let response = {};
-  if (convfrom.length !== 3 && convto.length !== 3 && convmount <= 0) {
+  if (convfrom.length !== 3 || convto.length !== 3 || convmount <= 0) {
+    res.writeHead(400, {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    });
     response = { status: "error", message: "Invalid data" };
     res.write(JSON.stringify(response));
     console.log("before return:", JSON.stringify(response));
-    return;
   } else {
     res.writeHead(200, {
       "Content-Type": "application/json",
@@ -36,7 +39,8 @@ function converter(req, res) {
     response.rate = intermediate.toFixed(2);
     res.write(JSON.stringify(response));
     console.log("after return:", JSON.stringify(response));
-    res.end();
-  }
+}
+  res.end();
+
 }
 console.log("the end of exchange server...");
