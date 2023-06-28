@@ -15,11 +15,27 @@ const exServer = http.createServer(converter);
 exServer.listen(8800);
 
 function converter(req, res) {
-  const convString = new URLSearchParams(req.url);
+  if (req.url == "/favicon.ico") {
+    res.writeHead(404, {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    });
+    let response;
+    response = { status: "error", message: "Favicon.ico absent" };
+    res.write(JSON.stringify(response));
+    res.end();
+    return;
+  }
+
+  let url = new URL("http://" + req.headers.host + req.url);
+  let convString = new URLSearchParams(url.search);
   let convfrom = convString.get("from");
-  let convto = convString.get("/?to");
+  let convto = convString.get("to");
   let convmount = convString.get("mount");
   let response = {};
+  console.log("convfrom:", convfrom);
+  console.log("convto:", convto);
+  console.log("convmount:", convmount);
   if (convfrom.length !== 3 || convto.length !== 3 || convmount <= 0) {
     res.writeHead(400, {
       "Content-Type": "application/json",
@@ -28,7 +44,18 @@ function converter(req, res) {
     response = { status: "error", message: "Invalid data" };
     res.write(JSON.stringify(response));
     console.log("before return:", JSON.stringify(response));
-  } else {
+  // } else if (
+  //   convto !== Object.keys(exchange) ||
+  //   convfrom !== Object.keys(exchange)
+  // ) {
+  //   res.writeHead(403, {
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   });
+  //   let response;
+  //   response = { status: "error", message: "Currency doesn't match" };
+  //   res.write(JSON.stringify(response));
+  // } else {
     res.writeHead(200, {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -39,8 +66,7 @@ function converter(req, res) {
     response.rate = intermediate.toFixed(2);
     res.write(JSON.stringify(response));
     console.log("after return:", JSON.stringify(response));
-}
+  }
   res.end();
-
 }
 console.log("the end of exchange server...");

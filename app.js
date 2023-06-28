@@ -102,7 +102,7 @@ function sendRequest() {
   ) {
     xhr.open(
       "GET",
-      `http://127.0.0.1:8800?to=${exchangeTo.value}&from=${exchangeFrom.value}&mount=${amount.value}`
+      `http://127.0.0.1:8800/rate?to=${exchangeTo.value}&from=${exchangeFrom.value}&mount=${amount.value}`
     );
     xhr.send();
   }
