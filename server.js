@@ -37,6 +37,7 @@ function converter(req, res) {
   console.log("convto:", convto);
   console.log("convmount:", convmount);
   if (convfrom.length !== 3 || convto.length !== 3 || convmount <= 0) {
+    let response;
     res.writeHead(400, {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -44,29 +45,39 @@ function converter(req, res) {
     response = { status: "error", message: "Invalid data" };
     res.write(JSON.stringify(response));
     console.log("before return:", JSON.stringify(response));
-  // } else if (
-  //   convto !== Object.keys(exchange) ||
-  //   convfrom !== Object.keys(exchange)
-  // ) {
-  //   res.writeHead(403, {
-  //     "Content-Type": "application/json",
-  //     "Access-Control-Allow-Origin": "*",
-  //   });
-  //   let response;
-  //   response = { status: "error", message: "Currency doesn't match" };
-  //   res.write(JSON.stringify(response));
-  // } else {
-    res.writeHead(200, {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    });
-    let to = exchange[convto];
-    let from = exchange[convfrom];
-    let intermediate = (to / from) * convmount;
-    response.rate = intermediate.toFixed(2);
-    res.write(JSON.stringify(response));
-    console.log("after return:", JSON.stringify(response));
+    res.end();
+    return;
   }
+
+  let arrForValidation = Object.keys(exchange);
+  console.log("object keys:", arrForValidation);
+  for (i = 0; i < arrForValidation.length; i++) {
+    console.log("array [i]:", arrForValidation[i]);
+    console.log("type of array [i]:", typeof arrForValidation[i]);
+    if (convto !== arrForValidation[i] || convfrom !== arrForValidation[i]) {
+      res.writeHead(403, {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      });
+      let response;
+      response = { status: "error", message: "Currency doesn't match" };
+      res.write(JSON.stringify(response));
+      res.end();
+      return;
+    }
+  }
+
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  });
+  let to = exchange[convto];
+  let from = exchange[convfrom];
+  let intermediate = (to / from) * convmount;
+  response.rate = intermediate.toFixed(2);
+  res.write(JSON.stringify(response));
+  console.log("after return:", JSON.stringify(response));
+
   res.end();
 }
 console.log("the end of exchange server...");
