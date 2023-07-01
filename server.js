@@ -48,24 +48,32 @@ function converter(req, res) {
     res.end();
     return;
   }
+  let convfromValidation = false;
+  let convtoValidation = false;
 
-  let arrForValidation = Object.keys(exchange);
-  console.log("object keys:", arrForValidation);
-  for (i = 0; i < arrForValidation.length; i++) {
-    console.log("array [i]:", arrForValidation[i]);
-    console.log("type of array [i]:", typeof arrForValidation[i]);
-    if (convto !== arrForValidation[i] || convfrom !== arrForValidation[i]) {
-      res.writeHead(403, {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      });
-      let response;
-      response = { status: "error", message: "Currency doesn't match" };
-      res.write(JSON.stringify(response));
-      res.end();
-      return;
+  function validateWithFor(variable, valid) {
+    let arrForValidation = Object.keys(exchange);
+    for (i = 0; i < arrForValidation.length; i++) {
+      if (variable == arrForValidation[i]) {
+        valid = true;
+      }
     }
   }
+  //  {
+  //   console.log("array [i]:", arrForValidation[i]);
+  //   console.log("type of array [i]:", typeof arrForValidation[i]);
+  //    {
+  //     res.writeHead(403, {
+  //       "Content-Type": "application/json",
+  //       "Access-Control-Allow-Origin": "*",
+  //     });
+  //     let response;
+  //     response = { status: "error", message: "Currency doesn't match" };
+  //     res.write(JSON.stringify(response));
+  //     res.end();
+  //     return;
+  //   }
+  // }
 
   res.writeHead(200, {
     "Content-Type": "application/json",
